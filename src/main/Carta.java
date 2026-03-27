@@ -11,29 +11,46 @@ public class Carta {
 	
 	//constructors
 	public Carta() {
-		this(0, Naipe.SEMNAIPE);
+		this.valor = 0;
+		this.naipe = Naipe.SEMNAIPE;
 	}
 	
 	public Carta(int valor, Naipe naipe) {
-		this.setValor(valor);
-		this.setNaipe(naipe);
+		if(!this.setValor(valor) || !this.setNaipe(naipe)) {
+			throw new IllegalArgumentException("Valores ou naipe invalido para uma carta");
+		}
 	}
 	
 	public Carta(Carta carta) {
 		this(carta.getValor(), carta.getNaipe());
 	}
 	
+	//validaçoes
+	private static boolean validarValor(int valor) {
+		return valor >=1 && valor <= 13;
+	}
+	private static boolean validarNaipe(Naipe naipe) {
+		return naipe != Naipe.SEMNAIPE;
+	}
+	
+	public boolean isValid() {
+		return validarValor(this.getValor()) && validarNaipe(this.getNaipe());
+	}
+	
 	//setters
 	public boolean setValor(int valor) {
-		if(valor >=0 && valor <= 13) {
+		if(validarValor(valor)) {
 			this.valor = valor;
 			return true;
 		}
 		return false;
 	}
 	public boolean setNaipe(Naipe naipe) {
-		this.naipe = naipe;
-		return true;
+		if(validarNaipe(naipe)) {
+			this.naipe = naipe;
+			return true;
+		}
+		return false;
 	}
 	
 	//getters
@@ -43,6 +60,19 @@ public class Carta {
 	
 	//methods
 	
+	public int comparaValor(Carta carta) {
+		if(this.getValor() > carta.getValor()) {
+			return 1;
+		}else if(this.getValor() == carta.getValor()){
+			return 0;
+		}else {
+			return -1;
+		}
+	}
+	
+	public boolean mesmoNaipe(Carta carta) {
+		return this.getNaipe() == carta.getNaipe();
+	}
 	
 	
 	
