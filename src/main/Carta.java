@@ -2,9 +2,36 @@ package main;
 
 public class Carta {
 	public enum Naipe{
-		SEMNAIPE, ESPADAS, COPAS, OUROS, PAUS
+		SEMNAIPE, OUROS, ESPADAS, COPAS, PAUS;
+		
+		private static final String[] naipesStr = {"", "Ouros", "Espadas", "Copas", "Paus"};
+		
+		public static Naipe fromIndex(int index) {
+	        if (index < 0 || index >= Naipe.values().length) {
+	            throw new IllegalArgumentException("Naipe invalido use de 0 a 3. Recebido: " + index);
+	        }
+	        return Naipe.values()[index];
+	    }
+		
+		public static Naipe fromStr(String naipe) {
+			for(int i = 0; i < Naipe.naipesStr.length; i++) {
+				if(Naipe.naipesStr[i].equals(naipe)) {
+					return Naipe.fromIndex(i);
+				}
+			}
+			throw new IllegalArgumentException("String naipe invalido: " + naipe);
+		}
+		
+		@Override
+		public String toString() {
+			return Naipe.naipesStr[this.ordinal()];
+		}
+		
+		
 	}
-	private static String[] naipesStr = {"", "Espadas", "Copas", "Ouros", "Paus"};
+	
+	private static final String[] figuras = {"Ás", "Valete", "Dama", "Rei"};
+	
 	
 	private Naipe naipe;
 	private int valor;
@@ -19,6 +46,10 @@ public class Carta {
 		if(!this.setValor(valor) || !this.setNaipe(naipe)) {
 			throw new IllegalArgumentException("Valores ou naipe invalido para uma carta");
 		}
+	}
+	
+	public Carta(int valor, String naipe) {
+		this(valor, Naipe.fromStr(naipe));
 	}
 	
 	public Carta(Carta carta) {
@@ -56,7 +87,19 @@ public class Carta {
 	//getters
 	public int getValor() {return this.valor;}
 	public Naipe getNaipe() {return this.naipe;}
-	public String getNaipeStr() {return naipesStr[this.naipe.ordinal()];}
+	public String getNaipeStr() {return this.naipe.toString();}
+	
+	public String getValorStr() {
+		String nomeValor;
+		if(this.getValor() == 1) {
+			nomeValor = figuras[0];
+		}else if(this.getValor() > 10) {
+			nomeValor = figuras[this.getValor() - 10];
+		}else {
+			nomeValor = String.valueOf(this.getValor());
+		}
+		return nomeValor;
+	}
 	
 	//methods
 	
@@ -72,6 +115,11 @@ public class Carta {
 	
 	public boolean mesmoNaipe(Carta carta) {
 		return this.getNaipe() == carta.getNaipe();
+	}
+	
+	@Override
+	public String toString() {
+		return this.getValorStr() + "de " + this.getNaipeStr();
 	}
 	
 	
