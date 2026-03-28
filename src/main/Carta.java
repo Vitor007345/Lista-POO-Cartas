@@ -119,7 +119,7 @@ public class Carta {
 	
 	@Override
 	public String toString() {
-		return this.getValorStr() + "de " + this.getNaipeStr();
+		return this.getValorStr() + " de " + this.getNaipeStr();
 	}
 	
 	

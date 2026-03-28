@@ -59,7 +59,7 @@ public class Baralho {
 	
 	public Carta comprarCarta() {
 		if(qntCartas <= 0) {
-			throw new IllegalStateException("O baralho acabou!");
+			return null;
 		}
 		return new Carta(this.cartas[--this.qntCartas]);
 	}
